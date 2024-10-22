@@ -1,0 +1,26 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 8rem;
+  background-color: #4c4caf;
+  justify-content: center;
+  align-items: center;
+  scroll-padding-block-end: 100%;
+  margin-top: 2rem;
+}
+
+.headLine {
+  padding-top: 4px;
+  justify-content: center;
+  align-items: center;
+}
+
+a {
+  color: white;
+  padding: 2px;
+  margin: 0px;
+  display: block;
+  margin-bottom: 2px;
+  text-decoration: none;
+}
