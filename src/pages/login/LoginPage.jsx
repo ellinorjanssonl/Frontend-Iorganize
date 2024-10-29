@@ -7,7 +7,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  localStorage.setItem('token', token); 
+  /* localStorage.setItem('token', token);  */
 
 
   const handleLogin = async (e) => {

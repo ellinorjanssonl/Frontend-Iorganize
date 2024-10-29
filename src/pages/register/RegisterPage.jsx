@@ -30,7 +30,7 @@ const RegisterPage = () => {
 
       if (response.ok) {
         setMessage('Registration successful!');
-        navigate('/login');
+        navigate('/');
       } else {
         setMessage(data.error || 'Registration failed');
       }
