@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './login.module.css';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  localStorage.setItem('token', token); 
 
 
   const handleLogin = async (e) => {
@@ -41,9 +43,11 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className={styles.loginpage}>
+    <h2>Login</h2>
+    <div className={styles.logincomponent}>
+      
+      <form className={styles.form} onSubmit={handleLogin}>
         <div>
           <label>Email</label>
           <input
@@ -62,9 +66,10 @@ const LoginPage = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button className={styles.button} type="submit">Login</button>
       </form>
       {message && <p>{message}</p>}
+    </div>
     </div>
   );
 };

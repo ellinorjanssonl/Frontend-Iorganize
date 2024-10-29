@@ -1,0 +1,31 @@
+h2 {
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    color: #5c56cf;
+}
+
+.logincomponent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgba(92, 86, 207, 0.5);
+    width: 100%;
+    max-width: 50%; /* Sätter maxbredden till 50% av skärmen */
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.form input, .form button {
+    width: 100%; /* Gör elementen 100% breda inom sin container */
+}
