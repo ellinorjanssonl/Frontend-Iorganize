@@ -1,16 +1,17 @@
 import React from "react";
-import { Workspace } from "@niklaspelli/fwk4-23-components";
+/* import { Workspace } from "@niklaspelli/fwk4-23-components"; */
 import MembersListAvatar from "../../avatar/MembersListAvatar";
-import DraggableTaskBoard from "./DraggableTaskBoard";
-import Tasks from "./tasks";
+/* import DraggableTaskBoard from "./DraggableTaskBoard"; */
+import Boards from "./boards";
+import "./boards.module.css";
 
 const WorkspacePage = () => {
   return (
     <>
       <MembersListAvatar />
-      <Tasks />
-      <Workspace />
-      <DraggableTaskBoard />
+      <Boards/>
+    {/*   <Workspace /> */}
+  {/*     <DraggableTaskBoard /> */}
     </>
   );
 };
