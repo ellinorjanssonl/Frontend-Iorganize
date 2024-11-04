@@ -8,6 +8,7 @@ import WorkspacePage from "./pages/workspace/WorkspacePage";
 import Navbar from "./navbar/Navbar";
 import {PublicHeader} from "@niklaspelli/fwk4-23-components";
 import {PrivateHeader} from "@niklaspelli/fwk4-23-components";
+import CookieConsent from './CookieConsent';
 
 function App() {
   const location = useLocation();
@@ -31,6 +32,7 @@ function App() {
           </Routes>
         </div>
       </div>
+      <CookieConsent />
       <Footer />
     </>
   );
