@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styles from './login.module.css';
 
 const LoginPage = () => {
@@ -39,7 +39,7 @@ const LoginPage = () => {
       <h2>Login</h2>
       <div className={styles.logincomponent}>
         <form className={styles.form} onSubmit={handleLogin}>
-          <div>
+          <div className={styles.lables}>
             <label>Email</label>
             <input
               type="email"
@@ -48,7 +48,7 @@ const LoginPage = () => {
               required
             />
           </div>
-          <div>
+          <div className={styles.lables}>
             <label>Password</label>
             <input
               type="password"

@@ -3,6 +3,7 @@ import styles from './cookieConsent.module.css';
 
 const CookieConsent = () => {
     const [showPopup, setShowPopup] = useState(false);
+    const [showMoreInfo, setShowMoreInfo] = useState(false); // Track if 'read more' is clicked
 
     useEffect(() => {
         const checkCookieConsent = async () => {
@@ -36,7 +37,7 @@ const CookieConsent = () => {
                     'Content-Type': 'application/json',
                 },
             });
-            setShowPopup(false); // Dölj popup efter att ha accepterat
+            setShowPopup(false); 
         } catch (error) {
             console.error("Error accepting cookies:", error);
         }
@@ -51,7 +52,7 @@ const CookieConsent = () => {
                     'Content-Type': 'application/json',
                 },
             });
-            setShowPopup(false); // Dölj popup efter att ha avvisat
+            setShowPopup(false); 
         } catch (error) {
             console.error("Error declining cookies:", error);
         }
@@ -63,8 +64,31 @@ const CookieConsent = () => {
         <div className={styles.popup}>
             <div className={styles.popupContent}>
                 <p>We use cookies to improve your experience. Do you accept cookies?</p>
-                <button onClick={handleAccept} className={`${styles.button} ${styles.buttonAccept}`}>Accept</button>
-                <button onClick={handleDecline} className={`${styles.button} ${styles.buttonDecline}`}>Decline</button>
+                <div className={styles.buttonContainer}>
+                    <button onClick={handleAccept} className={`${styles.button} ${styles.buttonAccept}`}>Accept</button>
+                    <button onClick={handleDecline} className={`${styles.button} ${styles.buttonDecline}`}>Decline</button>
+                </div>
+                <button 
+                    onClick={() => setShowMoreInfo(!showMoreInfo)} 
+                    className={styles.readMore}
+                >
+                    Read more about our cookies
+                </button>
+                
+                {/* Additional information about cookies */}
+                {showMoreInfo && (
+                    <div className={styles.moreInfo}>
+                        <p><strong>What are cookies?</strong></p>
+                        <p>Cookies are small text files stored on your device to improve site functionality and user experience. Common types include:</p>
+                        <ul>
+                            <li><strong>Essential Cookies:</strong> Required for core site functionality, such as logging in and managing sessions.</li>
+                        </ul>
+                        <p><strong>GDPR Compliance</strong></p>
+                        <p>We handle cookies in compliance with GDPR to ensure your data privacy. You can manage your cookie preferences at any time.</p>
+                        <p>Cookies are not used for marketing or tracking purposes.</p>
+
+                    </div>
+                )}
             </div>
         </div>
     );
