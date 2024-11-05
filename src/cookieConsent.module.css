@@ -55,3 +55,29 @@
 .buttonDecline:hover {
     background-color: #e53935;
 }
+
+.readMore {
+    font-size: 0.9rem;
+    color: #2196f3;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 10px;
+}
+
+/* Styling for the additional information section */
+.moreInfo {
+    margin-top: 15px;
+    text-align: left;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    max-width: 400px;
+    color: #ddd;
+}
+
+.moreInfo ul {
+    list-style-type: disc;
+    margin-left: 20px;
+}

@@ -3,7 +3,7 @@ import styles from './cookieConsent.module.css';
 
 const CookieConsent = () => {
     const [showPopup, setShowPopup] = useState(false);
-    const [showMoreInfo, setShowMoreInfo] = useState(false); // Track if 'read more' is clicked
+    const [showMoreInfo, setShowMoreInfo] = useState(false);
 
     useEffect(() => {
         const checkCookieConsent = async () => {
@@ -17,7 +17,7 @@ const CookieConsent = () => {
                 });
 
                 const data = await response.json();
-                if (!data.consentGiven) {
+                if (data.cookieConsent === "missing") {
                     setShowPopup(true); // Visa popup om inget val gjorts
                 }
             } catch (error) {
@@ -28,6 +28,7 @@ const CookieConsent = () => {
         checkCookieConsent();
     }, []);
 
+    // Hantera accept-knappen
     const handleAccept = async () => {
         try {
             await fetch('http://localhost:3001/cookie/accept', {
@@ -37,12 +38,13 @@ const CookieConsent = () => {
                     'Content-Type': 'application/json',
                 },
             });
-            setShowPopup(false); 
+            setShowPopup(false); // Dölj popup efter att ha accepterat
         } catch (error) {
             console.error("Error accepting cookies:", error);
         }
     };
 
+   
     const handleDecline = async () => {
         try {
             await fetch('http://localhost:3001/cookie/decline', {
@@ -52,46 +54,46 @@ const CookieConsent = () => {
                     'Content-Type': 'application/json',
                 },
             });
-            setShowPopup(false); 
+            setShowPopup(false); // Dölj popup efter att ha avvisat
         } catch (error) {
             console.error("Error declining cookies:", error);
         }
     };
 
-    if (!showPopup) return null;
+     if (!showPopup) return null; 
 
     return (
         <div className={styles.popup}>
             <div className={styles.popupContent}>
                 <p>We use cookies to improve your experience. Do you accept cookies?</p>
-                <div className={styles.buttonContainer}>
-                    <button onClick={handleAccept} className={`${styles.button} ${styles.buttonAccept}`}>Accept</button>
-                    <button onClick={handleDecline} className={`${styles.button} ${styles.buttonDecline}`}>Decline</button>
-                </div>
+                <button onClick={handleAccept} className={`${styles.button} ${styles.buttonAccept}`}>Accept</button>
+                <button onClick={handleDecline} className={`${styles.button} ${styles.buttonDecline}`}>Decline</button>
+                
                 <button 
                     onClick={() => setShowMoreInfo(!showMoreInfo)} 
                     className={styles.readMore}
                 >
-                    Read more about our cookies
+                    Read more about our cookies and GDPR
                 </button>
-                
-                {/* Additional information about cookies */}
+
+                {/* Extra information om cookies och GDPR */}
                 {showMoreInfo && (
                     <div className={styles.moreInfo}>
-                        <p><strong>What are cookies?</strong></p>
-                        <p>Cookies are small text files stored on your device to improve site functionality and user experience. Common types include:</p>
+                        <h4>Cookie and GDPR Information</h4>
+                        <p>We use cookies to store user preferences, manage authentication, and provide secure access to our services. Some of the main uses include:</p>
                         <ul>
-                            <li><strong>Essential Cookies:</strong> Required for core site functionality, such as logging in and managing sessions.</li>
+                            <li><strong>User Information:</strong> Cookies store essential data like user preferences and session information for a personalized experience.</li>
+                            <li><strong>Authorization and Authentication:</strong> Cookies support secure logins and help protect access to your data.</li>
+                            <li><strong>Permissions:</strong> Depending on your role, cookies may track permissions, like the ability to delete users or manage sensitive data.</li>
+                            <li><strong>Data Security:</strong> Cookies are configured with secure settings, and sensitive information is handled according to GDPR standards.</li>
                         </ul>
-                        <p><strong>GDPR Compliance</strong></p>
-                        <p>We handle cookies in compliance with GDPR to ensure your data privacy. You can manage your cookie preferences at any time.</p>
-                        <p>Cookies are not used for marketing or tracking purposes.</p>
-
+                        <p>We are committed to protecting your data and only use cookies necessary for delivering our services. For more details, please refer to our privacy policy.</p>
                     </div>
                 )}
             </div>
         </div>
     );
 };
+
 
 export default CookieConsent;

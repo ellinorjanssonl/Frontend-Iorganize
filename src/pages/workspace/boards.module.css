@@ -6,9 +6,9 @@
     font-family: Arial, sans-serif;
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
 }
 
-/* Title styling */
 .title {
     text-align: center;
     font-size: 2rem;
@@ -17,7 +17,6 @@
     flex-basis: 100%;
 }
 
-/* Form styling for Create New Board */
 .createBoardForm {
     width: 25%;
     display: flex;
@@ -28,6 +27,7 @@
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     margin-left: 20px;
+
 }
 
 .createBoardForm h3 {
@@ -61,7 +61,6 @@
     background-color: #0056b3;
 }
 
-/* Board list container styling */
 .boardListContainer {
     display: flex;
     flex-wrap: wrap;
@@ -71,9 +70,8 @@
     overflow-x: auto;
 }
 
-/* Individual board item styling */
 .boardItem {
-    background-color: #fafafa;
+    background-color: #ffffff;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -81,7 +79,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: min-content;
 }
+
 
 .boardItem h3 {
     margin: 0;
@@ -104,19 +104,23 @@
     margin-top: 10px;
     width: 100%;
     text-align: left;
+   
 }
 
 .boardTasks li {
+    background-color: #bbdcff;
+    margin-top: 1rem;
+    border-radius: 15px;
     color: #0a0044;
     padding: 5px;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #9f9f9f;
 }
 
 .boardTasks li:last-child {
     border-bottom: none;
 }
 
-/* Buttons styling */
+
 .boardItem button {
     margin-top: 10px;
     padding: 8px 12px;
@@ -133,6 +137,10 @@
     background-color: #218838;
 }
 
+.boardItem .newtask {
+    background-color: #4979fb;
+}
+
 .boardItem .deletebutton {
     margin-top: 10px;
     padding: 8px 12px;
@@ -143,4 +151,27 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+
+.createTaskForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 2rem;
+}
+
+.createTaskForm input {
+    margin: 5px 0;
+    padding: 5px;
+    width: 90%;
+    border: 1px solid #1e0048;
+    border-radius: 4px;
+}
+
+.createTaskForm ::placeholder {
+    font-size: 0.75rem;
+    color: #150043;
+    margin-bottom: 5px;
 }
