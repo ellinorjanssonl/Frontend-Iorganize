@@ -14,7 +14,7 @@ h2 {
 }
 
 .form {
-    display: flex;
+    display :flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -26,6 +26,41 @@ h2 {
     box-sizing: border-box;
 }
 
-.form input, .form button {
-    width: 100%; /* Gör elementen 100% breda inom sin container */
+.loginbutton {
+    background-color: #00b120;
+    color: #ffffff;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border: none;
+    cursor: pointer;
+    width: 30%;
+}
+
+.link {
+    color: #ffffff;
+    text-decoration: underline;
+    font-weight: 100;
+    margin-top: 1rem;
+}
+.lablesinput {
+    color: #ffffff;
+    margin-top: 1rem;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 50%;
+}
+
+.lablesinput input {
+    width: 100%;
+    padding: 0.5rem;
+}
+
+.lablesinput label {
+    color: #ffffff;
+    display :flex;
+    flex-direction: column;
+
 }

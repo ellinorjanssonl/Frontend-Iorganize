@@ -36,10 +36,10 @@ const LoginPage = () => {
 
   return (
     <div className={styles.loginpage}>
-      <h2>Login</h2>
+      <h2>LOGIN</h2>
       <div className={styles.logincomponent}>
         <form className={styles.form} onSubmit={handleLogin}>
-          <div className={styles.lables}>
+          <div className={styles.lablesinput}>
             <label>Email</label>
             <input
               type="email"
@@ -48,7 +48,7 @@ const LoginPage = () => {
               required
             />
           </div>
-          <div className={styles.lables}>
+          <div className={styles.lablesinput}>
             <label>Password</label>
             <input
               type="password"
@@ -57,10 +57,12 @@ const LoginPage = () => {
               required
             />
           </div>
-          <button className={styles.button} type="submit">Login</button>
+          <button className={styles.loginbutton} type="submit">Login</button>
+          <Link className={styles.link} to="/register">Don't have an account? REGISTER HERE!</Link>
         </form>
         {message && <p>{message}</p>}
       </div>
+      
     </div>
   );
 };

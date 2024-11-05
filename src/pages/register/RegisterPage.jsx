@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import styles from './../login/login.module.css';
 
 const RegisterPage = () => {
   const [fullname, setFullname] = useState('');
@@ -40,10 +42,11 @@ const RegisterPage = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div>
+    <div className={styles.loginpage}>
+      <h2>REGISTER</h2>
+      <div className={styles.logincomponent}>
+      <form className={styles.form} onSubmit={handleRegister}>
+      <div className={styles.lablesinput}>
           <label>Full Name</label>
           <input
             type="text"
@@ -52,7 +55,7 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.lablesinput}>
           <label>Email</label>
           <input
             type="email"
@@ -61,7 +64,7 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <div>
+        <div className={styles.lablesinput}>
           <label>Password</label>
           <input
             type="password"
@@ -70,9 +73,14 @@ const RegisterPage = () => {
             required
           />
         </div>
-        <button type="submit">Register</button>
+     
+       
+        <button className={styles.loginbutton} type="submit">Register</button>
+        <Link className={styles.link} to="/">Already have an account? LOGIN HERE!</Link>
+        
       </form>
       {message && <p>{message}</p>}
+      </div>
     </div>
   );
 };
