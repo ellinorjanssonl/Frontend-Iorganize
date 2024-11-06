@@ -63,11 +63,12 @@
 
 .boardListContainer {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Förhindrar att items går till ny rad */
     gap: 15px;
-    width: 70%;
-    flex-direction: row;
-    overflow-x: auto;
+    width: 100%;
+    overflow-x:scroll; /* Gör så att vi kan skrolla horisontellt vid behov */
+    max-width: calc(4 * 20rem + 3 * 1.5rem);  
+    scroll-behavior: smooth;
 }
 
 .boardItem {
@@ -75,29 +76,29 @@
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 200px;
+    width: 12rem; /* Sätt en fast bredd för varje board */
+    flex: 0 0 auto; /* Förhindrar att boards ändrar bredd */
     display: flex;
     flex-direction: column;
     align-items: center;
     height: min-content;
 }
 
-
-.boardItem h3 {
+.boardItem h5 {
     margin: 0;
     color: #150043;
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-align: center;
+    font-weight: 100;
 }
 
 .boardItem p {
     color: #15003e;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     margin: 10px 0;
     text-align: center;
 }
 
-/* Task list inside each board */
 .boardTasks {
     list-style: none;
     padding: 0;
@@ -110,7 +111,7 @@
 .boardTasks li {
     background-color: #bbdcff;
     margin-top: 1rem;
-    border-radius: 15px;
+    border-radius: 7px;
     color: #0a0044;
     padding: 5px;
     border-bottom: 1px solid #9f9f9f;
@@ -121,20 +122,36 @@
 }
 
 
-.boardItem button {
+.deletetaskbutton {
     margin-top: 10px;
-    padding: 8px 12px;
-    font-size: 0.9rem;
+    padding: 5px 10px;
+    font-size: 0.5rem;
     color: #fff;
-    background-color: #28a745;
+    background-color: #0e053f;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
-.boardItem button:hover {
-    background-color: #218838;
+.taskbutton {
+    margin-top: 10px;
+    padding: 5px 10px;
+    font-size: 0.5rem;
+    color: #fff;
+    background-color: #0e053f;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.taskbutton:hover {
+    background-color: #00a203;
+}
+
+.deletetaskbutton:hover{
+    background-color: #be0000;
 }
 
 .boardItem .newtask {
@@ -143,8 +160,8 @@
 
 .boardItem .deletebutton {
     margin-top: 10px;
-    padding: 8px 12px;
-    font-size: 0.9rem;
+    padding: 5px 10px;
+    font-size: 0.5rem;
     color: #fff;
     background-color: #dc3545;
     border: none;
