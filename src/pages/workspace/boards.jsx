@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import styles from './boards.module.css';
+import Tasks from './tasks';
 
-const Boards = ({ onSelectBoard }) => {
+const Boards = () => {
     const [boards, setBoards] = useState([]);
     const [newBoardName, setNewBoardName] = useState('');
     const [newBoardDescription, setNewBoardDescription] = useState('');
-    const [newTask, setNewTask] = useState({ title: '', description: '', assignedTo: '' });
-
-    // Fetch all boards and their tasks for the user
+    const [invites, setInvites] = useState([]);
+    const [inviteEmail, setInviteEmail] = useState('');
+    const [selectedBoardId, setSelectedBoardId] = useState(null);
     const fetchUserBoards = async () => {
         try {
             const response = await fetch('http://localhost:3001/board/my-boards', {
@@ -18,23 +19,73 @@ const Boards = ({ onSelectBoard }) => {
                 },
             });
             const data = await response.json();
-
-            // Fetch tasks for each board and add them to the boards' data
-            const boardsWithTasks = await Promise.all(data.map(async (board) => {
-                const taskResponse = await fetch(`http://localhost:3001/task/${board.id}/tasks`, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const tasks = await taskResponse.json();
-                return { ...board, tasks };
-            }));
-
-            setBoards(boardsWithTasks);
+            console.log("Fetched boards:", data); // Lägg till logg här
+            setBoards(data);
         } catch (error) {
-            console.error("Error fetching boards and tasks:", error);
+            console.error("Error fetching boards:", error);
+        }
+    };
+    
+    const fetchInvites = async () => {
+        try {
+            const response = await fetch('http://localhost:3001/invite/get', {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            const data = await response.json();
+            console.log("Fetched invites:", data); // Lägg till logg här
+            setInvites(data);
+        } catch (error) {
+            console.error("Error fetching invites:", error);
+        }
+    };
+
+    const sendInvite = async (boardId) => {
+        try {
+            const response = await fetch('http://localhost:3001/invite/send', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ boardId, invitedEmail: inviteEmail }),
+            });
+
+            if (response.ok) {
+                setInviteEmail('');
+                alert('Invite sent successfully!');
+            } else {
+                const errorData = await response.json();
+                alert(errorData.error || 'Failed to send invite');
+            }
+        } catch (error) {
+            console.error("Error sending invite:", error);
+        }
+    };
+
+    const acceptInvite = async (inviteId) => {
+        try {
+            const response = await fetch(`http://localhost:3001/invite/${inviteId}/accept`, {
+                method: 'PUT',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (response.ok) {
+                fetchUserBoards();
+                fetchInvites();
+                console.log (inviteId);
+            } else {
+                console.error("Error accepting invite.");
+            }
+        } catch (error) {
+            console.error("Error accepting invite:", error);
+
         }
     };
 
@@ -61,126 +112,48 @@ const Boards = ({ onSelectBoard }) => {
         }
     };
 
-    const deleteBoard = async (boardId) => {
-        try {
-            const response = await fetch(`http://localhost:3001/board/delete/${boardId}`, {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.ok) {
-                setBoards(boards.filter((board) => board.id !== boardId));
-            } else {
-                console.error("Error deleting board.");
-            }
-        } catch (error) {
-            console.error("Error deleting board:", error);
-        }
-    };
-
-    const createTask = async (boardId) => {
-        try {
-            const response = await fetch(`http://localhost:3001/task/create/${boardId}`, {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(newTask),
-            });
-
-            if (response.ok) {
-                setNewTask({ title: '', description: '', assignedTo: '' });
-                fetchUserBoards(); // Refresh boards and tasks
-            } else {
-                console.error("Error creating task.");
-            }
-        } catch (error) {
-            console.error("Error creating task:", error);
-        }
-    };
-
-    const deleteTask = async (taskId) => {
-        try {
-            const response = await fetch(`http://localhost:3001/task/delete/${taskId}`, {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            if (response.ok) {
-                console.log(`Task with ID ${taskId} deleted successfully.`);
-                fetchUserBoards(); // Refresh boards and tasks
-            } else {
-                const errorData = await response.json();
-                console.error("Error deleting task:", errorData.error || "Unknown error");
-            }
-        } catch (error) {
-            console.error("Error deleting task:", error);
-        }
-    };
-
     useEffect(() => {
         fetchUserBoards();
+        fetchInvites();
     }, []);
 
     return (
         <div className={styles.container}>
             <div className={styles.boardListContainer}>
-                {boards.map((board) => (
-                    <div key={board.id} className={styles.boardItem}>
-                        <h3>{board.name}</h3>
-                        <p>{board.description}</p>
-                        
-                        <div>
-                            {board.tasks && board.tasks.length > 0 ? (
-                                <ul className={styles.boardTasks}>
-                                    {board.tasks.map((task) => (
-                                        <li key={task.id}>
-                                            <h5>{task.title}</h5>
-                                            <p>{task.description}</p>
-                                            <p>Assigned to: {task.assigned_to}</p>
-                                            <button  className={styles.deletetaskbutton} onClick={() => deleteTask(task.id)}>Delete</button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p>No tasks available for this board.</p>
-                            )}
+              {boards.map((board, index) => (
+               <div key={`${board.id}-${index}`} className={styles.boardItem}>
+               <h3>{board.name}</h3>
+               <p>{board.description}</p>
+                <div className={styles.boardActions}>
+                 <button onClick={() => setSelectedBoardId(board.id)}>Select Board</button>
+              </div>
 
-                            <div className={styles.createTaskForm}>
-                                <h4>Add a new task</h4>
-                                <input
-                                    type="text"
-                                    value={newTask.title}
-                                    onChange={(e) => setNewTask({ ...newTask, title: e.target.value })}
-                                    placeholder="Task Title"
-                                />
-                                <input
-                                    type="text"
-                                    value={newTask.description}
-                                    onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
-                                    placeholder="Task Description"
-                                />
-                                <input
-                                    type="text"
-                                    value={newTask.assignedTo}
-                                    onChange={(e) => setNewTask({ ...newTask, assignedTo: e.target.value })}
-                                    placeholder="Assigned to (User ID)"
-                                />
-                                <button className={styles.taskbutton} onClick={() => createTask(board.id)}>Add Task</button>
-                            </div>
-                            <button className={styles.deletebutton} onClick={() => deleteBoard(board.id)}>Delete Board</button>
-                        </div>
-                    </div>
+            {selectedBoardId === board.id && <Tasks boardId={board.id} />}
+              <div className={styles.inviteForm}>
+               <h4>Invite a Member</h4>
+                <input
+                 type="email"
+                 value={inviteEmail}
+                 onChange={(e) => setInviteEmail(e.target.value)}
+                 placeholder="User's Email"
+                />
+                <button onClick={() => sendInvite(board.id)}>Send Invite</button>
+              </div>
+             </div>
+            ))}
+             </div>
+               <div className={styles.invitesContainer}>
+                <h3>Pending Invites</h3>
+                <ul>
+                  {invites.map((invite, index) => (
+                  <li key={`${invite.id}-${index}`}>
+                   <p>Board: {invite.board_id} - Invited by: {invite.invited_by}</p>
+                   <button onClick={() => acceptInvite(invite.id)}>Accept Invite</button>
+                  </li>
                 ))}
-            </div>
+               </ul>
 
+            </div>
             <div className={styles.createBoardForm}>
                 <h3>Create New Board</h3>
                 <input
@@ -196,7 +169,7 @@ const Boards = ({ onSelectBoard }) => {
                     placeholder="Board Description"
                 />
                 <button onClick={createBoard}>Create Board</button>
-            </div>
+            </div>          
         </div>
     );
 };

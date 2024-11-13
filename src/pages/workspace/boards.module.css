@@ -67,7 +67,7 @@
     gap: 15px;
     width: 100%;
     overflow-x:scroll; /* Gör så att vi kan skrolla horisontellt vid behov */
-    max-width: calc(4 * 20rem + 3 * 1.5rem);  
+   /*  max-width: calc(4 * 20rem + 3 * 1.5rem);  */ 
     scroll-behavior: smooth;
 }
 
@@ -76,8 +76,8 @@
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 12rem; /* Sätt en fast bredd för varje board */
-    flex: 0 0 auto; /* Förhindrar att boards ändrar bredd */
+    width: 70%; /* Sätt en fast bredd för varje board */
+    /* flex: 0 0 auto;  */
     display: flex;
     flex-direction: column;
     align-items: center;
